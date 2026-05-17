@@ -1,0 +1,125 @@
+schema_version: 1
+
+context:
+  version: "1.34.1"
+
+recipe:
+  name: goose
+  version: ${{ version }}
+
+source:
+  url: https://github.com/aaif-goose/goose/archive/refs/tags/v${{ version }}.tar.gz
+  sha256: f8bb579750bb7dba3fd8685a27b4986f7caa2d629f6d80cd7879308dcf540c36
+
+build:
+  number: 0
+
+outputs:
+  - package:
+      name: goose-cli
+      version: ${{ version }}
+    build:
+      script:
+        - if: win
+          then: |
+            set CMAKE_GENERATOR=Ninja
+            set CMAKE_GENERATOR_TOOLSET=
+            set CMAKE_GENERATOR_PLATFORM=
+            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_TOOLSET=v143=%"
+            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_PLATFORM=x64=%"
+            pushd crates\goose-cli
+            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}\THIRDPARTY.yml
+          else: |
+            export CMAKE_GENERATOR=Ninja
+            export RUSTFLAGS="-Clink-arg=-L${PREFIX}/lib -Clink-arg=-lomp"
+            pushd crates/goose-cli
+            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}/THIRDPARTY.yml
+        - cargo install --no-track --locked --root ${{ PREFIX }} --path .
+        - popd
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - ${{ compiler('rust') }}
+        - ${{ 'protobuf' if linux }}
+        - cargo-bundle-licenses
+        - cmake
+        - ninja
+        - pkg-config
+      host:
+        - ${{ 'llvm-openmp' if osx }}
+        - if: linux
+          then:
+            - dbus
+            - libxcb
+        - clangdev
+        - zlib
+    tests:
+      - script:
+          - goose --version
+          - goose --help
+
+  - package:
+      name: goose-server
+      version: ${{ version }}
+    build:
+      script:
+        - if: win
+          then: |
+            set CMAKE_GENERATOR=Ninja
+            set CMAKE_GENERATOR_TOOLSET=
+            set CMAKE_GENERATOR_PLATFORM=
+            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_TOOLSET=v143=%"
+            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_PLATFORM=x64=%"
+            pushd crates\goose-server
+            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}\THIRDPARTY.yml
+          else: |
+            export CMAKE_GENERATOR=Ninja
+            export RUSTFLAGS="-Clink-arg=-L${PREFIX}/lib -Clink-arg=-lomp"
+            pushd crates/goose-server
+            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}/THIRDPARTY.yml
+        - cargo install --no-track --locked --root ${{ PREFIX }} --path .
+        - popd
+    requirements:
+      build:
+        - ${{ compiler('cxx') }}
+        - ${{ stdlib('c') }}
+        - ${{ compiler('rust') }}
+        - ${{ 'protobuf' if linux }}
+        - cargo-bundle-licenses
+        - cmake
+        - ninja
+        - pkg-config
+      host:
+        - ${{ 'llvm-openmp' if osx }}
+        - if: linux
+          then:
+            - dbus
+            - libxcb
+        - clangdev
+        - zlib
+    tests:
+      - script:
+          - goosed --version
+          - goosed --help
+
+about:
+  homepage: https://goose-docs.ai
+  documentation: https://goose-docs.ai/docs
+  repository: https://github.com/aaif-goose/goose
+  license: Apache-2.0
+  license_file:
+    - LICENSE
+    - THIRDPARTY.yml
+  summary: 'An open source, extensible AI agent that goes beyond code suggestions - install, execute, edit, and test with any LLM'
+  description: |
+    goose is a general-purpose AI agent that runs on your machine.
+    Not just for code — use it for research, writing, automation, data analysis, or anything you need to get done.
+
+    goose works with 15+ providers — Anthropic, OpenAI, Google, Ollama, OpenRouter, Azure, Bedrock, and more.
+    Use API keys or your existing Claude, ChatGPT, or Gemini subscriptions via [ACP](https://goose-docs.ai/docs/guides/acp-providers).
+    Connect to 70+ extensions via the [Model Context Protocol](https://modelcontextprotocol.io/) open standard.
+
+extra:
+  recipe-maintainers:
+    - eunos-1128
