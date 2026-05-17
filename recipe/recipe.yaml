@@ -41,6 +41,7 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib('c') }}
         - ${{ compiler('rust') }}
+        - ${{ 'clangdev' if build_platform != target_platform }}
         - ${{ 'protobuf' if linux }}
         - cargo-bundle-licenses
         - cmake
@@ -85,6 +86,7 @@ outputs:
         - ${{ compiler('cxx') }}
         - ${{ stdlib('c') }}
         - ${{ compiler('rust') }}
+        - ${{ 'clangdev' if build_platform != target_platform }}
         - ${{ 'protobuf' if linux }}
         - cargo-bundle-licenses
         - cmake
