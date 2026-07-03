@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.40.0"
+  version: "1.41.0"
 
 recipe:
   name: goose
@@ -9,7 +9,7 @@ recipe:
 
 source:
   url: https://github.com/aaif-goose/goose/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 40ab4a185cff18dd77ef54e77a123e4c37fbb326354200926181af7333a8102c
+  sha256: 1eeb0dfddbf2e5b1a850e24ea5ce9bd7681501b1d200e26fb5e3be465337c1bb
 
 build:
   number: 0
