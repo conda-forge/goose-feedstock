@@ -79,7 +79,6 @@ Current release info
 | Name | Downloads | Version | Platforms |
 | --- | --- | --- | --- |
 | [![Conda Recipe](https://img.shields.io/badge/recipe-goose--cli-green.svg)](https://anaconda.org/conda-forge/goose-cli) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/goose-cli.svg)](https://anaconda.org/conda-forge/goose-cli) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/goose-cli.svg)](https://anaconda.org/conda-forge/goose-cli) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/goose-cli.svg)](https://anaconda.org/conda-forge/goose-cli) |
-| [![Conda Recipe](https://img.shields.io/badge/recipe-goose--server-green.svg)](https://anaconda.org/conda-forge/goose-server) | [![Conda Downloads](https://img.shields.io/conda/dn/conda-forge/goose-server.svg)](https://anaconda.org/conda-forge/goose-server) | [![Conda Version](https://img.shields.io/conda/vn/conda-forge/goose-server.svg)](https://anaconda.org/conda-forge/goose-server) | [![Conda Platforms](https://img.shields.io/conda/pn/conda-forge/goose-server.svg)](https://anaconda.org/conda-forge/goose-server) |
 
 Installing goose-cli
 ====================
@@ -91,16 +90,16 @@ conda config --add channels conda-forge
 conda config --set channel_priority strict
 ```
 
-Once the `conda-forge` channel has been enabled, `goose-cli, goose-server` can be installed with `conda`:
+Once the `conda-forge` channel has been enabled, `goose-cli` can be installed with `conda`:
 
 ```
-conda install goose-cli goose-server
+conda install goose-cli
 ```
 
 or with `mamba`:
 
 ```
-mamba install goose-cli goose-server
+mamba install goose-cli
 ```
 
 It is possible to list all of the versions of `goose-cli` available on your platform with `conda`:

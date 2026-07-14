@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.41.0"
+  version: "1.43.0"
 
 recipe:
   name: goose
@@ -9,7 +9,7 @@ recipe:
 
 source:
   url: https://github.com/aaif-goose/goose/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: 1eeb0dfddbf2e5b1a850e24ea5ce9bd7681501b1d200e26fb5e3be465337c1bb
+  sha256: 4f81792de25b0f04547bb1177cd64eaa2e094eb0373b27513558d0d36742b379
 
 build:
   number: 0
@@ -59,51 +59,7 @@ outputs:
       - script:
           - goose --version
           - goose --help
-
-  - package:
-      name: goose-server
-      version: ${{ version }}
-    build:
-      script:
-        - if: win
-          then: |
-            set CMAKE_GENERATOR=Ninja
-            set CMAKE_GENERATOR_TOOLSET=
-            set CMAKE_GENERATOR_PLATFORM=
-            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_TOOLSET=v143=%"
-            set "CMAKE_ARGS=%CMAKE_ARGS:-DCMAKE_GENERATOR_PLATFORM=x64=%"
-            pushd crates\goose-server
-            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}\THIRDPARTY.yml
-          else: |
-            export CMAKE_GENERATOR=Ninja
-            export RUSTFLAGS="-Clink-arg=-L${PREFIX}/lib -Clink-arg=-lomp"
-            pushd crates/goose-server
-            cargo-bundle-licenses --format yaml --output ${{ SRC_DIR }}/THIRDPARTY.yml
-        - cargo install --no-track --locked --root ${{ PREFIX }} --path .
-        - popd
-    requirements:
-      build:
-        - ${{ compiler('cxx') }}
-        - ${{ stdlib('c') }}
-        - ${{ compiler('rust') }}
-        - ${{ 'clangdev' if build_platform != target_platform }}
-        - ${{ 'protobuf' if linux }}
-        - cargo-bundle-licenses
-        - cmake
-        - ninja
-        - pkg-config
-      host:
-        - ${{ 'llvm-openmp' if osx }}
-        - if: linux
-          then:
-            - dbus
-            - libxcb
-        - clangdev
-        - zlib
-    tests:
-      - script:
-          - goosed --version
-          - goosed --help
+          - goose serve --help
 
 about:
   homepage: https://goose-docs.ai
