@@ -9,7 +9,7 @@ channel_targets:
 cxx_compiler:
 - gxx
 cxx_compiler_version:
-- '14'
+- '15'
 dbus:
 - '1'
 docker_image:
