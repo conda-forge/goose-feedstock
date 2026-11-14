@@ -46,7 +46,7 @@ outputs:
         - cargo-bundle-licenses
         - cmake
         - ninja
-        - pkg-config
+        - pkgconf
       host:
         - ${{ 'llvm-openmp' if osx }}
         - if: linux
