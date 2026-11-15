@@ -1,7 +1,7 @@
 schema_version: 1
 
 context:
-  version: "1.59.0"
+  version: "1.59.1"
 
 recipe:
   name: goose
@@ -9,7 +9,7 @@ recipe:
 
 source:
   url: https://github.com/aaif-goose/goose/archive/refs/tags/v${{ version }}.tar.gz
-  sha256: e3d194509db091bcde628a7987bf00d46fd6acb7931a1bcbae8ce74a25e89138
+  sha256: dc27131f9ac744a7d1c7fb5c5f1d83ae2e2cb1a126918469101c92f202f54ff4
 
 build:
   number: 0
@@ -46,7 +46,7 @@ outputs:
         - cargo-bundle-licenses
         - cmake
         - ninja
-        - pkg-config
+        - pkgconf
       host:
         - ${{ 'llvm-openmp' if osx }}
         - if: linux
